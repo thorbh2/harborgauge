@@ -1,0 +1,530 @@
+.shell {
+  min-height: 100vh;
+  color: #e8f4ee;
+  background:
+    linear-gradient(90deg, rgba(245, 197, 66, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(109, 217, 191, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 18% 18%, rgba(109, 217, 191, 0.12), transparent 30%),
+    #08151a;
+  background-size: 48px 48px, 48px 48px, auto;
+}
+
+.harbor {
+  width: min(1460px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 370px;
+  grid-template-rows: auto auto minmax(560px, 1fr);
+  gap: 14px;
+}
+
+.signalMast,
+.metricStrip,
+.manifestRail,
+.yard,
+.controlRoom {
+  border: 1px solid rgba(232, 244, 238, 0.18);
+  background: rgba(8, 21, 26, 0.84);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+}
+
+.signalMast {
+  grid-column: 1 / -1;
+  min-height: 102px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background:
+    linear-gradient(90deg, rgba(245, 197, 66, 0.12), rgba(8, 21, 26, 0.92) 40%),
+    rgba(8, 21, 26, 0.9);
+}
+
+.identity span,
+.contractPlate span,
+.metricStrip span,
+.railHead span,
+.yardHeader span,
+.operator span,
+.scoreboard span,
+.radar small {
+  display: block;
+  color: #8fb3b0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.identity h1 {
+  margin: 3px 0 0;
+  color: #e8f4ee;
+  font-size: clamp(2.2rem, 5vw, 4.9rem);
+  line-height: 0.92;
+  font-weight: 950;
+}
+
+.contractPlate {
+  min-height: 62px;
+  padding: 12px 14px;
+  display: grid;
+  align-content: center;
+  border-left: 5px solid #f5c542;
+  background: rgba(245, 197, 66, 0.12);
+}
+
+.contractPlate strong {
+  margin-top: 5px;
+  color: #f5c542;
+  overflow-wrap: anywhere;
+}
+
+.walletButton,
+.walletWarn,
+.chainButton,
+.accountButton,
+.actionButton {
+  min-height: 46px;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.walletButton,
+.walletWarn {
+  padding: 0 18px;
+  color: #08151a;
+  background: #f5c542;
+}
+
+.walletWarn {
+  color: #fff;
+  background: #ce4f2e;
+}
+
+.walletStack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.chainButton {
+  padding: 0 12px;
+  color: #08151a;
+  background: #6dd9bf;
+}
+
+.accountButton {
+  padding: 0 12px;
+  color: #08151a;
+  background: #f5c542;
+}
+
+.metricStrip {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.metricStrip div {
+  min-height: 76px;
+  padding: 15px;
+  border-right: 1px solid rgba(232, 244, 238, 0.16);
+}
+
+.metricStrip div:last-child {
+  border-right: 0;
+}
+
+.metricStrip strong {
+  display: block;
+  margin-top: 5px;
+  color: #f5c542;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.manifestRail {
+  grid-column: 1;
+  grid-row: 3;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.railHead,
+.yardHeader,
+.operator {
+  min-height: 66px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(232, 244, 238, 0.16);
+}
+
+.railHead strong,
+.yardHeader strong,
+.operator strong {
+  color: #6dd9bf;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.manifestTicket {
+  width: 100%;
+  min-height: 122px;
+  padding: 16px;
+  border: 0;
+  border-bottom: 1px solid rgba(232, 244, 238, 0.12);
+  color: #e8f4ee;
+  text-align: left;
+  background:
+    linear-gradient(90deg, rgba(245, 197, 66, 0.08), transparent),
+    transparent;
+  cursor: pointer;
+}
+
+.manifestTicketActive {
+  color: #08151a;
+  background:
+    repeating-linear-gradient(135deg, rgba(8, 21, 26, 0.12) 0 9px, transparent 9px 18px),
+    #f5c542;
+}
+
+.manifestTicket span {
+  display: block;
+  color: #6dd9bf;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.manifestTicketActive span {
+  color: #08151a;
+}
+
+.manifestTicket strong {
+  display: block;
+  margin-top: 9px;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.manifestTicket small {
+  display: block;
+  margin-top: 8px;
+  color: inherit;
+  opacity: 0.72;
+  line-height: 1.35;
+}
+
+.yard {
+  grid-column: 2;
+  grid-row: 3;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.yardHeader h2 {
+  margin: 4px 0 0;
+  color: #e8f4ee;
+  font-size: clamp(1.6rem, 3.2vw, 3.6rem);
+  line-height: 0.96;
+}
+
+.visualDeck {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(280px, 1fr);
+  gap: 14px;
+  padding: 16px;
+}
+
+.radar {
+  min-height: 315px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(109, 217, 191, 0.32);
+  background:
+    radial-gradient(circle, transparent 0 18%, rgba(109, 217, 191, 0.1) 19% 20%, transparent 21% 36%, rgba(109, 217, 191, 0.1) 37% 38%, transparent 39% 54%, rgba(109, 217, 191, 0.1) 55% 56%, transparent 57%),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(109, 217, 191, 0.26) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(180deg, transparent calc(50% - 1px), rgba(109, 217, 191, 0.26) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    #0d252b;
+}
+
+.radarSweep {
+  width: 48%;
+  height: 2px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #6dd9bf, transparent);
+  animation: sweep 4.2s linear infinite;
+}
+
+.radar div {
+  position: relative;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(8, 21, 26, 0.88);
+  border: 1px solid rgba(245, 197, 66, 0.5);
+}
+
+.radar strong {
+  display: block;
+  color: #f5c542;
+  font-size: 2.4rem;
+}
+
+.containerYard {
+  min-height: 315px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-content: end;
+  gap: 7px;
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(109, 217, 191, 0.1), transparent 46%),
+    #071015;
+}
+
+.container,
+.containerHot {
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  color: #08151a;
+  font-size: 0.74rem;
+  font-weight: 950;
+  background:
+    repeating-linear-gradient(90deg, rgba(8, 21, 26, 0.13) 0 4px, transparent 4px 10px),
+    #6dd9bf;
+  transform: translateY(calc(var(--tier) * -3px));
+}
+
+.containerHot {
+  background:
+    repeating-linear-gradient(90deg, rgba(8, 21, 26, 0.18) 0 4px, transparent 4px 10px),
+    #f5c542;
+}
+
+.tideGraph {
+  height: 160px;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: end;
+  gap: 6px;
+  padding: 18px;
+  border-top: 1px solid rgba(232, 244, 238, 0.14);
+  border-bottom: 1px solid rgba(232, 244, 238, 0.14);
+  background: rgba(109, 217, 191, 0.05);
+}
+
+.tideGraph span {
+  min-height: 12px;
+  display: block;
+  background: linear-gradient(180deg, #6dd9bf, #1c6e75);
+  animation: lift 820ms ease both;
+  animation-delay: var(--delay);
+}
+
+.yard p {
+  margin: 0;
+  padding: 18px;
+  color: #d8e6df;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.flagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 18px 18px;
+}
+
+.flagRow span {
+  padding: 7px 10px;
+  color: #08151a;
+  background: #f5c542;
+  font-size: 0.74rem;
+  font-weight: 950;
+}
+
+.controlRoom {
+  grid-column: 3;
+  grid-row: 3;
+  min-width: 0;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid rgba(232, 244, 238, 0.14);
+}
+
+.scoreboard div {
+  min-height: 88px;
+  padding: 15px;
+  border-right: 1px solid rgba(232, 244, 238, 0.14);
+  border-bottom: 1px solid rgba(232, 244, 238, 0.14);
+}
+
+.scoreboard div:nth-child(2n) {
+  border-right: 0;
+}
+
+.scoreboard b {
+  display: block;
+  margin-top: 8px;
+  color: #f5c542;
+  font-size: 1.65rem;
+}
+
+.actionPanel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 15px;
+}
+
+.actionButton {
+  min-height: 58px;
+  padding: 0 12px;
+  color: #08151a;
+  background: #6dd9bf;
+}
+
+.actionButton:nth-child(2n) {
+  background: #f5c542;
+}
+
+.actionButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.44;
+}
+
+.toast {
+  margin: 0 15px 15px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+  color: #e8f4ee;
+  background: #102a31;
+  border-left: 4px solid #6dd9bf;
+}
+
+.toast strong,
+.toast span,
+.toast a {
+  overflow-wrap: anywhere;
+}
+
+.toast_error {
+  border-left-color: #ce4f2e;
+}
+
+.toast_ok {
+  border-left-color: #6dd9bf;
+}
+
+.toast_pending {
+  border-left-color: #f5c542;
+}
+
+@keyframes sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes lift {
+  from {
+    transform: scaleY(0.2);
+    opacity: 0.4;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1100px) {
+  .harbor {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    grid-template-rows: auto;
+  }
+
+  .manifestRail {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .yard {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  .controlRoom {
+    grid-column: 2;
+    grid-row: 4;
+  }
+}
+
+@media (max-width: 760px) {
+  .harbor {
+    padding: 10px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .signalMast,
+  .metricStrip,
+  .manifestRail,
+  .yard,
+  .controlRoom {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .signalMast {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .walletStack {
+    grid-template-columns: 1fr;
+  }
+
+  .metricStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metricStrip div {
+    border-bottom: 1px solid rgba(232, 244, 238, 0.14);
+  }
+
+  .visualDeck {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .containerYard {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .actionPanel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

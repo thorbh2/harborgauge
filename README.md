@@ -10,8 +10,14 @@ Terminal operators attach cargo documents and custody readings, run GenLayer ins
 | --- | --- |
 | App | https://harborgauge.vercel.app |
 | GitHub | https://github.com/thorbh2/harborgauge |
-| Contract | https://explorer-studio.genlayer.com/contracts/0x33B30e29925dC6E3925022EAEE2D014ef876DA3B |
+| Contract | https://explorer-studio.genlayer.com/contracts/0x7c75e5245AcAa149E30a454F61e6F908148426Fc |
+| Deploy tx | https://explorer-studio.genlayer.com/tx/0xf2bd6974fcea7a6bf0c59a00985a3f73b5e92837eaa60d93e9962eb7c98e69d1 |
+| Vercel inspect | https://vercel.com/aspros-projects-07dbbeb8/harborgauge/DJjruaMqqXZ79ueHsXDhS5dtkTmu |
 | Network | GenLayer Studionet |
+
+## Release Control
+
+The production client no longer invents manifest outcomes when a read fails. It shows an explicit empty or unavailable state and refreshes only after wallet-confirmed receipts. Dispute, escalation and release buttons call the submitted contract methods; release is restricted to the manifest owner or administrator, requires an inspection, and stops while either review path is pending. These guarantees are pinned in `tests/test_submission_invariants.py`.
 
 ## What Ships
 
@@ -39,7 +45,7 @@ Open the URL printed by Next.js. The public contract address is already present 
 ## Public Environment
 
 ```text
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x33B30e29925dC6E3925022EAEE2D014ef876DA3B
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x7c75e5245AcAa149E30a454F61e6F908148426Fc
 NEXT_PUBLIC_GENLAYER_RPC=https://studio.genlayer.com/api
 NEXT_PUBLIC_GENLAYER_EXPLORER=https://explorer-studio.genlayer.com
 NEXT_PUBLIC_GENLAYER_CHAIN_ID=61999

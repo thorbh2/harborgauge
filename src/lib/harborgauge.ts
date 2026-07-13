@@ -3,7 +3,7 @@ import { studionet as genlayerStudionet } from 'genlayer-js/chains';
 import { TransactionStatus, type TransactionHash } from 'genlayer-js/types';
 
 export const CONTRACT_ADDRESS =
-  (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || '0x33B30e29925dC6E3925022EAEE2D014ef876DA3B').trim();
+  (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || '0x7c75e5245AcAa149E30a454F61e6F908148426Fc').trim();
 export const EXPLORER = process.env.NEXT_PUBLIC_GENLAYER_EXPLORER || 'https://explorer-studio.genlayer.com';
 export const NETWORK = 'studionet';
 

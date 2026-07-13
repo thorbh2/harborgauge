@@ -142,13 +142,32 @@ class HarborGauge(gl.Contract):
     recent_ids: DynArray[str]
     harbor_standard: str
     clock: u256
+    admin: str
 
     def __init__(self) -> None:
         self.clock = 0
+        self.admin = gl.message.sender_address.as_hex
         self.harbor_standard = "HarborGauge requires public cargo documents, bill-of-lading sources, seal checks, reefer/custody readings, prompt-injection resistance, dispute rights, escalation rights and auditable release."
 
     def _actor(self) -> str:
         return gl.message.sender_address.as_hex
+
+    def _require_admin(self) -> None:
+        if self._actor().lower() != self.admin.lower():
+            raise Exception("only_admin")
+
+    def _require_owner(self, manifest: dict) -> None:
+        if self._actor().lower() != str(manifest.get("actor", "")).lower() and self._actor().lower() != self.admin.lower():
+            raise Exception("only_manifest_owner_or_admin")
+
+    def _has_pending_filings(self, manifest: dict) -> bool:
+        for did in manifest.get("disputeIds", []):
+            if json.loads(self.disputes[int(did)]).get("ruling") == "pending":
+                return True
+        for eid in manifest.get("escalationIds", []):
+            if json.loads(self.escalations[int(eid)]).get("ruling") == "pending":
+                return True
+        return False
 
     def _ilist(self, tree: TreeMap[str, str], key: str) -> list:
         if key not in tree:
@@ -252,6 +271,7 @@ class HarborGauge(gl.Contract):
 
     @gl.public.write
     def set_harbor_standard(self, standard: str) -> None:
+        self._require_admin()
         self.harbor_standard = _s(standard, 1400)
 
     @gl.public.write
@@ -506,9 +526,12 @@ class HarborGauge(gl.Contract):
     def release_manifest(self, manifest_id: str) -> None:
         self.clock += 1
         manifest = self._load_manifest(manifest_id)
+        self._require_owner(manifest)
         before = manifest["status"]
         if len(manifest.get("inspectionIds", [])) == 0:
             raise Exception("not_reviewed")
+        if self._has_pending_filings(manifest):
+            raise Exception("open_dispute_or_escalation_blocks_release")
         self._set_status(manifest, "RELEASED")
         self._audit(manifest, "release_manifest", "manifest released into harbor ledger", before, "RELEASED")
         self._store_manifest(manifest)

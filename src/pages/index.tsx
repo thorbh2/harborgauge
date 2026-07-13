@@ -25,44 +25,13 @@ const DOCS = 'https://docs.genlayer.com/';
 const WEB = 'https://docs.genlayer.com/developers/intelligent-contracts/features/web-access';
 const SECURITY = 'https://docs.genlayer.com/developers/intelligent-contracts/security-and-best-practices/prompt-injection';
 
-const fallbackManifests: HarborManifest[] = [
-  {
-    id: '0',
-    title: 'Reefer lane MZ-17 clearance',
-    terminal: 'Berth 7 / Tanger Med cold yard',
-    vessel: 'MV Atlas Current',
-    routeLane: 'TNG -> VLC -> ROT',
-    claim: 'Cargo document, seal check and reefer readings support a clean release.',
-    sourceUrl: DOCS,
-    status: 'RELEASED',
-    verdict: 'clear',
-    confidenceBps: 9100,
-    custodyMatchBps: 8800,
-    documentRiskBps: 900,
-    peakTempC: 4,
-    dwellMinutes: 42,
-    summary: 'Bill of lading, customs note, seal checks and cold-chain readings agree.',
-    riskFlags: ['LOW_DOC_RISK', 'SEAL_MATCH'],
-  },
-  {
-    id: '1',
-    title: 'Container stack C-44 dispute',
-    terminal: 'South crane apron',
-    vessel: 'Feeder Kestrel',
-    routeLane: 'CAS -> ALG',
-    claim: 'Seal scan exists, but one custody reading needs human inspection.',
-    sourceUrl: WEB,
-    status: 'DISPUTED',
-    verdict: 'mixed',
-    confidenceBps: 6500,
-    custodyMatchBps: 5700,
-    documentRiskBps: 3100,
-    peakTempC: 9,
-    dwellMinutes: 118,
-    summary: 'Documents match the vessel, while the dwell window is still disputed.',
-    riskFlags: ['DWELL_VARIANCE', 'INSPECTION_OPEN'],
-  },
-];
+const emptyManifest: HarborManifest = {
+  id: '', title: 'No on-chain manifest', terminal: 'Waiting for contract data', vessel: 'No vessel selected',
+  routeLane: 'Open a manifest to begin', claim: '', sourceUrl: '', status: 'NO ON-CHAIN DATA',
+  verdict: 'not reviewed', confidenceBps: 0, custodyMatchBps: 0, documentRiskBps: 0,
+  peakTempC: 0, dwellMinutes: 0, summary: 'No contract record was returned. Static outcomes are not shown.',
+  riskFlags: ['NO_ONCHAIN_DATA'],
+};
 
 const containerRows = [
   ['HG', '41', '7A', 'OK', '19', 'RF'],
@@ -101,20 +70,11 @@ const Home: NextPage = () => {
   const [toast, setToast] = useState<TxToast>({ kind: 'idle', title: '' });
   const [busy, setBusy] = useState(false);
 
-  const manifests = bootstrap?.recentManifests?.length ? bootstrap.recentManifests : fallbackManifests;
-  const active = manifests[Math.min(selected, manifests.length - 1)] || fallbackManifests[0];
-  const manifestId = useMemo(() => String(active.id || '0'), [active.id]);
-  const stats = bootstrap?.stats || {
-    manifests: manifests.length,
-    cargoDocuments: 6,
-    sealChecks: 5,
-    vesselReadings: 14,
-    inspections: 2,
-    disputes: 1,
-    escalations: 1,
-    audits: 25,
-  };
-  const quality = bootstrap?.quality?.qualityBps ?? 8780;
+  const manifests = bootstrap?.recentManifests ?? [];
+  const active = manifests[Math.min(selected, manifests.length - 1)] || emptyManifest;
+  const manifestId = useMemo(() => String(active.id || ''), [active.id]);
+  const stats = bootstrap?.stats || { manifests: 0, cargoDocuments: 0, sealChecks: 0, vesselReadings: 0, inspections: 0, disputes: 0, escalations: 0, audits: 0 };
+  const quality = bootstrap?.quality?.qualityBps ?? 0;
 
   const refresh = useCallback(async () => {
     const data = await getBootstrap().catch(() => null);
@@ -175,11 +135,16 @@ const Home: NextPage = () => {
         DOCS,
       ],
     },
-    { label: 'Cargo doc', fn: 'add_cargo_document', args: [manifestId, 'bill of lading', DOCS, 'Public bill-of-lading source matches vessel, route and cargo class.'] },
-    { label: 'Seal check', fn: 'add_seal_check', args: [manifestId, 'door seal scan', 'HG-SEAL-7719', WEB, 'Seal scan was matched at crane apron intake.'] },
-    { label: 'Custody log', fn: 'log_vessel_reading', args: [manifestId, 4, 'reefer within tolerance', 42, 'Cold-chain dwell remained inside accepted harbor window.'] },
-    { label: 'Inspect', fn: 'open_inspection', args: [manifestId] },
-    { label: 'AI inspect', fn: 'inspect_manifest_with_genlayer', args: [manifestId] },
+    ...(manifestId ? [
+      { label: 'Cargo doc', fn: 'add_cargo_document', args: [manifestId, 'bill of lading', DOCS, 'Public bill-of-lading source matches vessel, route and cargo class.'] },
+      { label: 'Seal check', fn: 'add_seal_check', args: [manifestId, 'door seal scan', 'HG-SEAL-7719', WEB, 'Seal scan was matched at crane apron intake.'] },
+      { label: 'Custody log', fn: 'log_vessel_reading', args: [manifestId, 4, 'reefer within tolerance', 42, 'Cold-chain dwell remained inside accepted harbor window.'] },
+      { label: 'Inspect', fn: 'open_inspection', args: [manifestId] },
+      { label: 'AI inspect', fn: 'inspect_manifest_with_genlayer', args: [manifestId] },
+      { label: 'Dispute', fn: 'file_dispute', args: [manifestId, 'The current inspection needs counter-evidence review before release.', SECURITY] },
+      { label: 'Escalate', fn: 'file_escalation', args: [manifestId, 'Escalate the unresolved custody and document risk for a second review.', WEB] },
+      { label: 'Release', fn: 'release_manifest', args: [manifestId] },
+    ] : []),
   ];
 
   return (
@@ -246,6 +211,7 @@ const Home: NextPage = () => {
               <small>{manifest.terminal}</small>
             </button>
           ))}
+          {manifests.length === 0 && <p>No on-chain manifests returned. Connect a wallet and open the first manifest.</p>}
         </section>
 
         <section className={styles.yard}>
